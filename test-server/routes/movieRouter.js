@@ -9,6 +9,7 @@ const movies = [
   { title: 'friday the 13th', genre: 'horror', _id: uuidv4() },
 ]
 
+// get one
 movieRouter.get('/:movieId', (req, res) => {
   const movieId = req.params.movieId
 
@@ -16,6 +17,15 @@ movieRouter.get('/:movieId', (req, res) => {
   res.send(foundMovie)
 })
 
+// get genre
+movieRouter.get('/search/genre', (req, res) => {
+  const genre = req.query.genre
+
+  const filteredMovies = movies.filter((movie) => movie.genre === genre)
+  res.send(filteredMovies)
+})
+
+// post one
 movieRouter.post('/', (req, res) => {
   const newMovie = req.body
   newMovie._id = uuidv4()
@@ -23,8 +33,17 @@ movieRouter.post('/', (req, res) => {
   res.send(`Successfully added ${newMovie.title} to the database`)
 })
 
+// get all
 movieRouter.get('/', (req, res) => {
   res.send(movies)
+})
+
+// delete
+movieRouter.delete('/:movieId', (req, res) => {
+  const movieId = req.params.movieId
+  const movieIndex = movies.findIndex((movie) => movie._id === movieId)
+  movies.splice(movieIndex, 1)
+  res.send('Successfully deleted movie!')
 })
 
 // movieRouter
