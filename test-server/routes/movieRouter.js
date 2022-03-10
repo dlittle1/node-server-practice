@@ -28,9 +28,18 @@ movieRouter.get('/search/genre', (req, res) => {
 // post one
 movieRouter.post('/', (req, res) => {
   const newMovie = req.body
-  newMovie._id = uuidv4()
-  movies.push(newMovie)
-  res.send(newMovie)
+  if (
+    newMovie.title === undefined ||
+    newMovie.genre === undefined ||
+    newMovie.title === '' ||
+    newMovie.genre === ''
+  ) {
+    res.status(400).send('Must Have Title and Genre')
+  } else {
+    newMovie._id = uuidv4()
+    movies.push(newMovie)
+    res.send(newMovie)
+  }
 })
 
 // get all

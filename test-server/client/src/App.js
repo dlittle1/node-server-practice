@@ -17,6 +17,19 @@ function App() {
     axios
       .post('/movies', newMovie)
       .then((res) => setMovies((prevMovies) => [...prevMovies, res.data]))
+      .catch((err) => console.error(err))
+  }
+
+  console.log(movies)
+
+  function deleteMovie(movieId) {
+    axios
+      .delete(`/movies/${movieId}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err))
+    setMovies((prevMovies) =>
+      prevMovies.filter((movie) => movie._id !== movieId)
+    )
   }
 
   useEffect(() => {
@@ -28,7 +41,7 @@ function App() {
       <div className='movie-container'>
         <AddMovieForm addMovie={addMovie} />
         {movies.map((movie) => (
-          <Movie {...movie} key={movie._id} />
+          <Movie {...movie} key={movie._id} deleteMovie={deleteMovie} />
         ))}
       </div>
     </div>
