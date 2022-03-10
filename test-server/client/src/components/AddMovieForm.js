@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const AddMovieForm = (props) => {
-  const initInputs = { title: '', genre: '' }
+  const initInputs = { title: props.title || '', genre: props.genre || '' }
   const [inputs, setInputs] = useState(initInputs)
 
   function handleChange(e) {
@@ -11,9 +11,10 @@ const AddMovieForm = (props) => {
 
   function handleSubmit(e) {
     e.preventDefault()
-    props.addMovie(inputs)
+    props.submit(inputs, props._id)
     setInputs(initInputs)
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -30,7 +31,7 @@ const AddMovieForm = (props) => {
         onChange={handleChange}
         placeholder='Genre'
       ></input>
-      <button>Add Movie</button>
+      <button>{props.btnText}</button>
     </form>
   )
 }

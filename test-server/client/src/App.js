@@ -32,6 +32,17 @@ function App() {
     )
   }
 
+  function editMovie(updates, movieId) {
+    axios
+      .put(`/movies/${movieId}`, updates)
+      .then((res) =>
+        setMovies((prevMovies) =>
+          prevMovies.map((movie) => (movie._id !== movieId ? movie : res.data))
+        )
+      )
+      .catch((err) => console.error(err))
+  }
+
   useEffect(() => {
     getMovies()
   }, [])
@@ -39,9 +50,14 @@ function App() {
   return (
     <div>
       <div className='movie-container'>
-        <AddMovieForm addMovie={addMovie} />
+        <AddMovieForm submit={addMovie} btnText='Add Movie' />
         {movies.map((movie) => (
-          <Movie {...movie} key={movie._id} deleteMovie={deleteMovie} />
+          <Movie
+            {...movie}
+            key={movie._id}
+            editMovie={editMovie}
+            deleteMovie={deleteMovie}
+          />
         ))}
       </div>
     </div>
