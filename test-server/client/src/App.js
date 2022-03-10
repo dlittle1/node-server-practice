@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import Movie from './components/Movie'
+import AddMovieForm from './components/AddMovieForm'
 
 function App() {
+  const [movies, setMovies] = useState([])
+
+  function getMovies() {
+    axios
+      .get('/movies')
+      .then((res) => setMovies(res.data))
+      .catch((err) => console.error(err))
+  }
+
+  function addMovie(newMovie) {
+    axios
+      .post('/movies', newMovie)
+      .then((res) => setMovies((prevMovies) => [...prevMovies, res.data]))
+  }
+
+  useEffect(() => {
+    getMovies()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className='movie-container'>
+        <AddMovieForm addMovie={addMovie} />
+        {movies.map((movie) => (
+          <Movie {...movie} key={movie._id} />
+        ))}
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
