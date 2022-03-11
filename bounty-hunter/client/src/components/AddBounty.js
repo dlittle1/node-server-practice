@@ -38,7 +38,7 @@ const AddBounty = (props) => {
       className='my-10 bg-white shadow-2xl shadow-slate-800 p-8 rounded form'
     >
       <div className='text-center uppercase font-bold text-gray-700 mb-6'>
-        Create New Bounty
+        {editBounty.firstName ? 'Edit Bounty' : 'Create New Bounty'}
       </div>
       <div className='flex flex-wrap mb-6'>
         <div className='md:w-1/2 px-3'>
@@ -138,7 +138,7 @@ const AddBounty = (props) => {
       </div>
 
       <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 ml-3'>
-        Create Bounty
+        {editBounty.firstName ? 'Edit Bounty' : 'Create Bounty'}
       </button>
       <button
         onClick={props.openAndCloseForm}
