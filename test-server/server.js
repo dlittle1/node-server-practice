@@ -10,6 +10,12 @@ app.use('/movies', require('./routes/movieRouter.js'))
 
 app.use('/tvshows', require('./routes/tvshowRouter'))
 
+// Error handling
+app.use((err, req, res, next) => {
+  console.log(err)
+  return res.send({ errMsg: err.message })
+})
+
 app.listen(9000, () => {
   console.log('The server is running on localhost:9000')
 })
