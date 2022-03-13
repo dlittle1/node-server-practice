@@ -43,6 +43,17 @@ function App() {
       .catch((err) => console.error(err))
   }
 
+  function handleFilter(e) {
+    if (e.target.value === 'reset') {
+      getMovies()
+    } else {
+      axios
+        .get(`/movies/search/genre?genre=${e.target.value}`)
+        .then((res) => setMovies(res.data))
+        .catch((err) => console.error(err))
+    }
+  }
+
   useEffect(() => {
     getMovies()
   }, [])
@@ -51,6 +62,13 @@ function App() {
     <div>
       <div className='movie-container'>
         <AddMovieForm submit={addMovie} btnText='Add Movie' />
+        <h4>Filter by Genre</h4>
+        <select onChange={handleFilter} className='filter-form'>
+          <option value='reset'>Select a Genre</option>
+          <option value='action'>Action</option>
+          <option value='fantasy'>Fantasy</option>
+          <option value='horror'>Horror</option>
+        </select>
         {movies.map((movie) => (
           <Movie
             {...movie}
